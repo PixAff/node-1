@@ -2,6 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
+import Stripe from "./Stripe";
+
 class Header extends React.Component {
   renderContent() {
     switch (this.props.auth) {
@@ -14,11 +16,14 @@ class Header extends React.Component {
           </li>
         );
       default:
-        return (
+        return [
+          <li>
+            <Stripe />
+          </li>,
           <li>
             <a href="api/logout">Logout</a>
-          </li>
-        );
+          </li>,
+        ];
     }
   }
   render() {
