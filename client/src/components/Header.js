@@ -17,10 +17,13 @@ class Header extends React.Component {
         );
       default:
         return [
-          <li>
+          <li key="stripe">
             <Stripe />
           </li>,
-          <li>
+          <li style={{ margin: "0 12px" }} key="credits">
+            Credits: {this.props.auth.credits}
+          </li>,
+          <li key="google">
             <a href="api/logout">Logout</a>
           </li>,
         ];
