@@ -4,7 +4,7 @@ import { loadStripe } from "@stripe/stripe-js";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 
-const ProductDisplay = ({ handleClick }) => (
+const CheckoutBtn = ({ handleClick }) => (
   <section>
     <button
       className="btn"
@@ -23,10 +23,11 @@ const Message = ({ message }) => (
   </section>
 );
 
-export default function Stripe() {
+export default function Stripe(props) {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
+    console.log(props);
     // Check to see if this is a redirect back from Checkout
     const query = new URLSearchParams(window.location.search);
 
@@ -54,7 +55,7 @@ export default function Stripe() {
     const result = await stripe.redirectToCheckout({
       sessionId: session.id,
     });
-
+    console.log(result);
     if (result.error) {
       // If `redirectToCheckout` fails due to a browser or network
       // error, display the localized error message to your customer
@@ -65,6 +66,6 @@ export default function Stripe() {
   return message ? (
     <Message message={message} />
   ) : (
-    <ProductDisplay handleClick={handleClick} />
+    <CheckoutBtn handleClick={handleClick} />
   );
 }

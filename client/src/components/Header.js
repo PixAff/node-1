@@ -18,7 +18,7 @@ class Header extends React.Component {
       default:
         return [
           <li key="stripe">
-            <Stripe />
+            <Stripe user={this.props.auth} />
           </li>,
           <li style={{ margin: "0 12px" }} key="credits">
             Credits: {this.props.auth.credits}
