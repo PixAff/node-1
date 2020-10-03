@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 import { loadStripe } from "@stripe/stripe-js";
 
@@ -27,7 +28,7 @@ export default function Stripe(props) {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    console.log(props);
+    // console.log(props);
     // Check to see if this is a redirect back from Checkout
     const query = new URLSearchParams(window.location.search);
 
@@ -45,17 +46,19 @@ export default function Stripe(props) {
   const handleClick = async (event) => {
     const stripe = await stripePromise;
 
-    const response = await fetch("api/create-session", {
-      method: "POST",
-    });
+    const response = await axios.post("api/create-session", { user_1: 399 });
 
-    const session = await response.json();
+    // const response = await fetch("api/create-session", {
+    //   method: "POST",
+    // });
+
+    const session = await response.data;
+    // const session = await response.json();
 
     // When the customer clicks on the button, redirect them to Checkout.
     const result = await stripe.redirectToCheckout({
       sessionId: session.id,
     });
-    console.log(result);
     if (result.error) {
       // If `redirectToCheckout` fails due to a browser or network
       // error, display the localized error message to your customer
@@ -63,9 +66,10 @@ export default function Stripe(props) {
     }
   };
 
-  return message ? (
-    <Message message={message} />
-  ) : (
-    <CheckoutBtn handleClick={handleClick} />
-  );
+  // return message ? (
+  //   <Message message={message} />
+  // ) : (
+  //   <CheckoutBtn handleClick={handleClick} />
+  // );
+  return <CheckoutBtn handleClick={handleClick} />;
 }

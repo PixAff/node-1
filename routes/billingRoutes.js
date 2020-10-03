@@ -16,30 +16,37 @@ const fulfillOrder = (session) => {
 };
 
 module.exports = (app) => {
-  app.post("/api/create-session", requireLogin, async (req, res) => {
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-      line_items: [
-        {
-          price_data: {
-            currency: "eur",
-            product_data: {
-              name: "Stefans Credits",
-              description: "payed for Stefans Credits",
-              images: ["https://i.imgur.com/EHyR2nP.png"],
+  app.post(
+    "/api/create-session",
+    requireLogin,
+    bodyParser.json(),
+    async (req, res) => {
+      console.log(req.body);
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ["card"],
+        line_items: [
+          {
+            price_data: {
+              currency: "eur",
+              product_data: {
+                name: "Stefans Credits",
+                description: "payed for Stefans Credits",
+                images: ["https://i.imgur.com/EHyR2nP.png"],
+              },
+              unit_amount: 100,
             },
-            unit_amount: 100,
+            quantity: 1,
           },
-          quantity: 1,
-        },
-      ],
-      mode: "payment",
-      success_url: "http://localhost:3000/surveys?success=true",
-      cancel_url: "http://localhost:3000/surveys?canceled=true",
-      customer_email: "customer@example.com",
-    });
-    res.json({ id: session.id });
-  });
+        ],
+        mode: "payment",
+        success_url: "http://localhost:3000/surveys?success=true",
+        cancel_url: "http://localhost:3000/surveys?canceled=true",
+        customer_email: "customer@example.com",
+        client_reference_id: req.body.user_1,
+      });
+      res.json({ id: session.id });
+    }
+  );
 
   app.post(
     "/api/stripe/webhook",
