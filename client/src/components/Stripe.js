@@ -46,8 +46,9 @@ export default function Stripe(props) {
   const handleClick = async (event) => {
     const stripe = await stripePromise;
 
-    const response = await axios.post("api/create-session", { user_1: 399 });
-
+    const response = await axios.post("api/create-session", {
+      user_id: props.user._id,
+    });
     // const response = await fetch("api/create-session", {
     //   method: "POST",
     // });

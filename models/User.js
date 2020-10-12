@@ -8,4 +8,6 @@ const userSchema = new Schema({
   credits: { type: Number, default: 0 },
 });
 
-mongoose.model("users", userSchema);
+const User = mongoose.model("users", userSchema);
+
+module.exports = User;

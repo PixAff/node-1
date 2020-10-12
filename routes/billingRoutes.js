@@ -1,17 +1,24 @@
 const Stripe = require("stripe");
-const keys = require("../config/keys");
-const requireLogin = require("../middlewares/requireLogin");
-
-const stripe = new Stripe(keys.stripeSecretKey);
-const endpointSecret = keys.stripeWebhook;
+const mongoose = require("mongoose");
+const axios = require("axios");
 const bodyParser = require("body-parser");
 
-const fulfillOrder = (session) => {
-  // TODO: fill me in
-  console.log("Fulfilling order", session);
-  // req.user.credits += 5;
-  // const user = await req.user.save();
+const keys = require("../config/keys");
+const userModel = require("../models/User");
+const requireLogin = require("../middlewares/requireLogin");
+const stripe = new Stripe(keys.stripeSecretKey);
+const endpointSecret = keys.stripeWebhook;
 
+const fulfillOrder = async (session) => {
+  try {
+    const actualUser = await userModel.findById(session.client_reference_id);
+    actualUser.credits += 5;
+    const user = await actualUser.save();
+    console.log("User", user);
+  } catch (error) {
+    console.log(error);
+  }
+  // console.log("Fulfilling order", session);
   // res.send(user);
 };
 
@@ -21,7 +28,7 @@ module.exports = (app) => {
     requireLogin,
     bodyParser.json(),
     async (req, res) => {
-      console.log(req.body);
+      // console.log(req.body);
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
         line_items: [
@@ -42,7 +49,7 @@ module.exports = (app) => {
         success_url: "http://localhost:3000/surveys?success=true",
         cancel_url: "http://localhost:3000/surveys?canceled=true",
         customer_email: "customer@example.com",
-        client_reference_id: req.body.user_1,
+        client_reference_id: req.body.user_id,
       });
       res.json({ id: session.id });
     }
@@ -53,6 +60,7 @@ module.exports = (app) => {
     bodyParser.raw({ type: "application/json" }),
     (req, res) => {
       const payload = req.body;
+      // console.log(payload.toString());
       const sig = req.headers["stripe-signature"];
 
       let event;
