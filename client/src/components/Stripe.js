@@ -3,6 +3,7 @@ import axios from "axios";
 
 import { loadStripe } from "@stripe/stripe-js";
 
+// update
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 
 const CheckoutBtn = ({ handleClick }) => (
