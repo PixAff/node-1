@@ -8,4 +8,7 @@ module.exports = {
   stripePublishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
   stripeSecretKey: process.env.STRIPE_SECRET_KEY,
   stripeWebhook: process.env.STRIPE_WEBHOOK,
+
+  sucessUrl: process.env.SUCCESS_URL,
+  cancelUrl: process.env.CANCEL_URL,
 };
