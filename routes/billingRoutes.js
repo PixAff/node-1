@@ -46,8 +46,8 @@ module.exports = (app) => {
           },
         ],
         mode: "payment",
-        success_url: "http://localhost:3000/surveys?success=true",
-        cancel_url: "http://localhost:3000/surveys?canceled=true",
+        success_url: "/surveys?success=true",
+        cancel_url: "/surveys?canceled=true",
         customer_email: "customer@example.com",
         client_reference_id: req.body.user_id,
       });
