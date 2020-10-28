@@ -25,6 +25,7 @@
     "passport": "^0.4.1",
     "passport-google-oauth20": "^2.0.0",
     "react-paypal-button-v2": "^2.6.2",
+    "sendgrid": "^5.2.3",
     "stripe": "^8.106.0"
   }
 }

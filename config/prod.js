@@ -11,4 +11,7 @@ module.exports = {
 
   sucessUrl: process.env.SUCCESS_URL,
   cancelUrl: process.env.CANCEL_URL,
+
+  sendGridKey: process.env.SEND_GRID_KEY,
+  redirectDomain: process.env.REDIRECT_DOMAIN,
 };
